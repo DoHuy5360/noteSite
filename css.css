@@ -12,10 +12,6 @@ body{
     position: sticky;
     top: 0;
 }
-select{
-    opacity: .8;
-    text-align: center;
-}
 button{
     cursor: pointer;
 }
@@ -28,7 +24,8 @@ input{
 }
 :root{
     --color_1: #ffffffe0; 
-    --color_2: #ffc2f780; 
+    --color_2: #ffc2f780;
+    --color_3: #ffffff;
 }
 .wrap-all{
     height: 100vh;
@@ -54,9 +51,13 @@ input{
     padding: 0 5px;
     user-select: none;
     font-size: 1em;
-    color: #ffffff;
+    color: var(--color_3);
     background-color: var(--color_2);
     border-left: 1px dashed;
+    transition-duration: .4s;
+}
+.switch:active{
+    background-color: var(--color_3);
 }
 .inp-edit{
     height: 40px;
@@ -66,7 +67,7 @@ input{
 }
 .area-edit{
     border: none;
-    padding: 5px;
+    padding: 7px;
     outline: none;
     resize: vertical;
     min-height: 200px;
@@ -75,8 +76,7 @@ input{
 .btn-edit{
     padding: 10px 0;
     border: none;
-    font-weight: bold;
-    color: #000000ba;
+    background-color: var(--color_3);
 }
 .btn-edit:hover{
     background-color: var(--color_2);
@@ -88,11 +88,11 @@ input{
     height: 100%;
     display: flex;
     justify-content: center;
-    transition-duration: 1s;
+    transition-duration: .9s;
 }
 .note-bar{
     overflow: scroll;
-    width: 90%;
+    width: 99%;
     padding: 20px 10px;
     background-color: var(--color_2);
     display: flex;
@@ -107,13 +107,13 @@ input{
 }
 .wrap-title-delete{
     width: 100%;
-    border: 1px dashed ;
+    border-bottom: 2px dashed;
     border-radius: 5px 5px 0 0;
     display: flex;
     padding: 5px;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
+    background-color: var(--color_3);
 }
 .wrap-info{
     padding: 0 5px 0 0;
@@ -123,13 +123,15 @@ input{
     float: right;
 }
 .title{
-    width: 80%;
+    /* width: 90%; */
     color: var(--color_2);
     text-shadow: -2px -2px #a21717;
+    padding-left: 8px;
 }
 .del-edit{
     border: none;
     padding: 5px;
+    width: 4em;
     background-color: transparent;
     border: 1px dashed;
 }
@@ -138,6 +140,5 @@ input{
     background-color: var(--color_2);
 }
 .info{
-    padding: 3px;
-    
+    padding: 3px 3px 3px 10px;
 }
