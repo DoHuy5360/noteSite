@@ -1,0 +1,143 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Consolas";
+}
+body{
+    background-image: url(./pexels-irina-iriser-1408221.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+select{
+    opacity: .8;
+    text-align: center;
+}
+button{
+    cursor: pointer;
+}
+input{
+    border: none;
+    outline: none;
+}
+::-webkit-scrollbar{
+    width: 0;
+}
+:root{
+    --color_1: #ffffffe0; 
+    --color_2: #ffc2f780; 
+}
+.wrap-all{
+    height: 100vh;
+    display: flex;
+}
+.wrap-edit-bar{
+    padding: 10px 20px;
+    height: 100%;
+    width: 30%;
+    background-color: var(--color_2);
+    transition-duration: 1s;
+}
+.edit-bar{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.switch{
+    border: none;
+    padding: 0 5px;
+    user-select: none;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: var(--color_2);
+    border-left: 1px dashed;
+}
+.inp-edit{
+    height: 40px;
+    padding: 5px;
+    border: none;
+    outline: none;
+}
+.area-edit{
+    border: none;
+    padding: 5px;
+    outline: none;
+    resize: vertical;
+    min-height: 200px;
+    max-height: 450px;
+}
+.btn-edit{
+    padding: 10px 0;
+    border: none;
+    font-weight: bold;
+    color: #000000ba;
+}
+.btn-edit:hover{
+    background-color: var(--color_2);
+}
+
+/*! ============================ note bar ==========  */
+.wrap-notes{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    transition-duration: 1s;
+}
+.note-bar{
+    overflow: scroll;
+    width: 90%;
+    padding: 20px 10px;
+    background-color: var(--color_2);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+/* ? =============== note =========== */
+.example-note{
+    display: grid;
+    background-color: var(--color_1);
+    border-radius: 5px;
+}
+.wrap-title-delete{
+    width: 100%;
+    border: 1px dashed ;
+    border-radius: 5px 5px 0 0;
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+}
+.wrap-info{
+    padding: 0 5px 0 0;
+}
+.wrap-info p{
+    opacity: .8;
+    float: right;
+}
+.title{
+    width: 80%;
+    color: var(--color_2);
+    text-shadow: -2px -2px #a21717;
+}
+.del-edit{
+    border: none;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px dashed;
+}
+.del-edit:hover{
+    border-radius: 8px;
+    background-color: var(--color_2);
+}
+.info{
+    padding: 3px;
+    
+}

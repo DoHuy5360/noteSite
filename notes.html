@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./myLogo.ico">
+    <link rel="stylesheet" href="css.css">
+    <title>Notes Online</title>
+</head>
+<body>
+    <div class="wrap-all">
+        <div class="wrap-edit-bar">
+            <form class="edit-bar" action="">
+                <button class="Add-note btn-edit" type="submit">Add</button>
+                <button class="update btn-edit">Update</button>
+                <input class="id inp-edit" onchange="check_id()" name="id" type="text" placeholder="id">
+                <select class="inp-title inp-edit" name="title">
+                    <option value=""></option>
+                    <option  value="Lập trình hướng đối tượng">Lập trình hướng đối tượng</option>
+                    <option value="Hệ quản trị cơ sở dữ liệu">Hệ quản trị cơ sở dữ liệu</option>
+                    <option value="Hệ điều hành và lập trình Linux">Hệ điều hành và lập trình Linux</option>
+                    <option value="Các nền tảng phát triển phần mềm">Các nền tảng phát triển phần mềm</option>
+                    <option value="Anh Văn 4">Anh Văn 4</option>
+                    <option value="Giáo dục thể chất 1">Giáo dục thể chất 1</option>
+                    <option value="Vật lý đại cương 2">Vật lý đại cương 2</option>
+                    <option value="Lịch sử đảng">Lịch sử đảng</option>
+                </select>
+                <textarea class="area-edit" name="note" id="" cols="30" rows="10" required placeholder="Ghi chú"></textarea>
+                <input class="date-time inp-edit" type="datetime-local" name="dateTime">
+            </form>
+        </div>
+        <button class="switch" onclick="open_close_edit()">&#62;&#62;&#62;</button>
+        <div class="wrap-notes">
+            <div class="note-bar">
+                <!-- Notes -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    const addNote = document.querySelector('.Add-note')
+    function check_id() {
+        const idNote = document.querySelector('.id');
+        if (idNote.value != ""){
+            addNote.style.display = "none";
+        }
+        else{
+            addNote.style.display = "block";
+        }
+    }
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+  import {  getFirestore, collection,
+            getDocs, addDoc, deleteDoc, doc,
+            onSnapshot, query, where, orderBy, serverTimestamp,
+            updateDoc} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyADM37s2G43ebYuFgVU0bOW3rex8xylc14",
+    authDomain: "saveit-daa40.firebaseapp.com",
+    projectId: "saveit-daa40",
+    storageBucket: "saveit-daa40.appspot.com",
+    messagingSenderId: "720935262954",
+    appId: "1:720935262954:web:3e2a8957284b6c10b9d593",
+    measurementId: "G-ZRPFWKHC0E"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore()
+  const collect =  collection(db, 'Subjects')
+  const add = document.querySelector('.edit-bar');
+
+  add.addEventListener('submit',(e) => {
+    e.preventDefault()
+    if (add.id.value == ""){
+        addDoc(collect, {
+            dateTime: add.dateTime.value,
+            title: add.title.value,
+            note: add.note.value,
+        }).then(() => {
+            add.reset()
+            location.reload(1000)
+        })
+    }
+})
+    function reloadPage(time){
+        setTimeout(() => {
+            location.reload()},time
+        );
+    }
+    const noteBar = document.querySelector(".note-bar");
+    onSnapshot(collect,(snapshot) => {
+        snapshot.docs.forEach((doc) => {
+            let arg = { ...doc.data(), id:doc.id };
+            let note = `
+                <div class="example-note">
+                    <div class="wrap-title-delete">
+                        <h3 class="title">${arg.title}</h3>
+                        <button class="del-edit delete" onclick="window.delete_note('${arg.id}')">Delete</button>
+                        <button class="del-edit edit-note" onclick="window.fill_info('${arg.note}', '${arg.title}', '${arg.dateTime}', '${arg.id}')">Edit</button>
+                        </div>
+                        <div class="info">${arg.note}</div>
+                        <div class="wrap-info">
+                        <p><strong>Deadline: </strong>${arg.dateTime}</p>
+                    </div>
+                </div>`
+                    noteBar.insertAdjacentHTML("beforeend",note);
+                })
+            })       
+
+    window.delete_note = function note(id){
+        const check = confirm(`Xác nhận xóa [ ${id} ]`);
+        if (check == true){
+            const mainId = doc(db, 'Subjects', id);
+            console.log(id)
+            deleteDoc(mainId)
+            reloadPage(1000);
+        }
+    }
+    var bina = 0;
+    window.open_close_edit = function touch(){
+        const swtch = document.querySelector(".switch");
+        const allEdit = document.querySelector(".wrap-edit-bar");
+        const wrapNote = document.querySelector(".wrap-notes");
+        if (bina == 0){
+            allEdit.style.transform = "translateX(-200%)";
+            allEdit.style.width = 0;
+            wrapNote.style.width = "99%";
+            swtch.innerHTML = "&#62;&#62;&#62;";
+            bina = 1;
+        }
+        else{
+            allEdit.style.transform = "translateX(0)";
+            allEdit.style.width = "30%";
+            wrapNote.style.width = "70%";
+            swtch.innerHTML = "&#60;&#60&#60;";
+            bina = 0;
+        }
+    }
+        add.addEventListener('submit', (e) => {
+            e.preventDefault()
+            const idNote = document.querySelector('.id');
+            const id = doc(db, 'Subjects', idNote.value)
+            updateDoc(id, {
+                dateTime: add.dateTime.value,
+                title: add.title.value,
+                note: add.note.value,
+            }).then(() => {
+            add.reset();
+            reloadPage(1000);
+        })
+    })
+    window.fill_info = function fill(note , title, dateTime, id){
+        document.querySelector(".area-edit").value = note;
+        document.querySelector(".inp-title").value = title;
+        document.querySelector(".date-time").value = dateTime;
+        document.querySelector('.id').value = id;
+    }
+</script>
